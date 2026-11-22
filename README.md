@@ -19,7 +19,7 @@ npm test         # test con node:test, senza installare nulla
 opencode         # l'agente, in un secondo terminale
 ```
 
-Se `npm start` non parte, qualunque server di file statici va bene, sempre sulla porta 5173: `python3 -m http.server 5173 -d web`, oppure Live Server di VS Code sulla cartella `web/`. Aprire `index.html` con un doppio clic non basta: il browser blocca la lettura dei dati.
+Se `npm start` non parte, qualunque server di file statici va bene, sempre sulla porta 5173: `python3 -m http.server 5173 -d web` (su Windows `py -m http.server 5173 -d web`), oppure Live Server di VS Code sulla cartella `web/`. Aprire `index.html` con un doppio clic non basta: il browser blocca la lettura dei dati.
 
 **I dati.** Non c'è un backend da avviare. `web/data/articles.json` è la risposta vera di `GET /api/articles` di DEV.to, salvata il 22/11/2026 (54 articoli, con le immagini): funziona anche senza rete. Il codice la legge con `leggiArticoli()` di `web/lib/sorgente.js`.
 
