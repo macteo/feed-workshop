@@ -27,6 +27,20 @@ Se `npm start` non parte, qualunque server di file statici va bene, sempre sulla
 
 **Level up: DEV.to dal vivo.** In `web/config.js` cambia `API_BASE` da `"data"` a `"https://dev.to/api"` e ricarica: stessi campi, articoli di oggi. DEV.to limita le richieste: se risponde con un errore, aspetta un minuto o torna a `"data"`.
 
+## Se resti indietro: i checkpoint
+
+Il ramo `percorso` contiene il lavoro fatto in aula, un tag per passo:
+
+| Tag | Che cosa c'è |
+|---|---|
+| `m2-spec` | `specs/feed/us-01-feed/spec.md` (prompt 1) |
+| `m3-piano` | in più `plan.md` (prompt 2) |
+| `m4-feed` | in più il feed in `web/` e i test in `tests/` (prompt 3) |
+| `m5-verifica` | in più `verifica.md` del revisore e gli screenshot in `verifica/` |
+| `m6-chiusura` | in più la regola in `AGENTS.md` e la US chiusa nel backlog |
+
+Per ripartire da un checkpoint senza perdere il tuo lavoro: `git fetch --tags`, poi `git switch -c ripartenza m3-piano` (al posto di `m3-piano` il tag che ti serve). Senza git: nella pagina del repository scegli il tag dal menu dei rami e scarica lo ZIP.
+
 ## Struttura (come nel D2)
 
 ```
