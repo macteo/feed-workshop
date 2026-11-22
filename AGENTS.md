@@ -25,3 +25,4 @@ Lavora solo sulla US indicata nel prompt. Aspetta l'approvazione dello studente 
 
 - **Non eseguire mai** `git add`, `git commit`, `git push`, `git reset`, `git checkout`: branch `feature/us-NN-slug`, commit e Pull Request li fa lo studente.
 - A fine lavoro riporta: file modificati, AC coperti e con quale test, esito di `npm test`, differenze dal piano.
+- Negli screenshot `[E2E]`, prima di scattare, porta in visuale l'elemento che deve provare lo stato (es. `scrollintoview` sul elemento ispezionato): lo stato verificato deve essere visibile nei pixel, non solo nel DOM.

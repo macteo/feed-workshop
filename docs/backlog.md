@@ -4,7 +4,7 @@ Sigle: US (User Story), RF (requisito funzionale), UC (Use Case, caso d'uso), SP
 
 | US | User story | Epica | RF | UC | SP | Stato |
 |---|---|---|---|---|---|---|
-| US-01 | Come visitatore voglio scorrere il feed degli articoli pubblicati, per scoprire che cosa si scrive. | feed | RF1 | UC-01 | 3 | Da fare |
+| US-01 | Come visitatore voglio scorrere il feed degli articoli pubblicati, per scoprire che cosa si scrive. | feed | RF1 | UC-01 | 3 | Fatto |
 | US-02 | Come visitatore voglio segnare un articolo con «Mi piace», per ritrovare a colpo d'occhio quelli che mi sono piaciuti. | feed | RF2 | UC-02 | 2 | Da fare |
 
 Gli story point sono una stima di partenza. Lo stato si aggiorna quando la US rispetta la Definition of Done.
