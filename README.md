@@ -39,6 +39,8 @@ Il ramo `percorso` contiene il lavoro fatto in aula, un tag per passo:
 | `m5-verifica` | in più `verifica.md` del revisore e gli screenshot in `verifica/` |
 | `m6-chiusura` | in più la regola in `AGENTS.md` e la US chiusa nel backlog |
 
+In cima al ramo, dopo `m6-chiusura`, c'è una correzione arrivata dopo la revisione: nelle card diventano link solo gli indirizzi `http(s)` (un `javascript:` non passa). Il revisore non l'aveva vista perché nessun criterio parlava di sicurezza.
+
 Per ripartire da un checkpoint senza perdere il tuo lavoro: `git fetch --tags`, poi `git switch -c ripartenza m3-piano` (al posto di `m3-piano` il tag che ti serve). Senza git: nella pagina del repository scegli il tag dal menu dei rami e scarica lo ZIP.
 
 ## Struttura (come nel D2)
