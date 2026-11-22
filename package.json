@@ -1,0 +1,10 @@
+{
+  "name": "feed-starter",
+  "private": true,
+  "type": "module",
+  "description": "Client web di un feed pubblico (DEV.to) per il workshop di Ingegneria del Software, UniTN 2026",
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "test": "node --test tests/"
+  }
+}
