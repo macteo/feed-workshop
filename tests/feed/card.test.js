@@ -78,3 +78,17 @@ test("[UNIT] ciSonoAltriArticoli() è false su pagina corta o vuota", () => {
   assert.equal(ciSonoAltriArticoli(Array(4).fill(articolo()), 10), false);
   assert.equal(ciSonoAltriArticoli([], 10), false);
 });
+
+// Sicurezza: un indirizzo che non è http(s) non diventa un link né un'immagine.
+test("[UNIT] schedaCard() non collega un url javascript:", () => {
+  const markup = schedaCard(articolo({ url: "javascript:alert(1)" }));
+  assert.ok(!/href=/.test(markup));
+  assert.ok(markup.includes("Come testare in modo efficace"), "il titolo resta, senza link");
+});
+
+test("[UNIT] schedaCard() accetta le immagini salvate in data/ e scarta gli altri schemi", () => {
+  const locale = schedaCard(articolo({ cover_image: "data/img/cover-1.webp" }));
+  assert.ok(locale.includes('src="data/img/cover-1.webp"'));
+  const strana = schedaCard(articolo({ cover_image: "javascript:alert(1)" }));
+  assert.equal((strana.match(/<img\b/g) ?? []).length, 1, "resta solo l'avatar");
+});
