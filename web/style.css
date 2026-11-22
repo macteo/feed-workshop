@@ -4,3 +4,36 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 .topbar h1 { margin: 0; font-size: 24px; }
 .source { color: #4b5563; font-size: 14px; }
 #feed { padding: 16px 20px; }
+
+/* Card: layout in verticale, segnaposto copertina con aspect-ratio fisso (AC-US01-02, AC-US01-03). */
+.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.copertina-contenitore { aspect-ratio: 16 / 9; background: #e5e7eb; display: block; }
+.copertina-contenitore .copertina { width: 100%; height: 100%; object-fit: cover; display: block; }
+.autore { display: flex; align-items: center; gap: 8px; padding: 12px 16px 0; }
+.autore .avatar { width: 32px; height: 32px; border-radius: 50%; }
+.autore .nome { font-weight: 600; font-size: 14px; }
+.autore .data { color: #6b7280; font-size: 13px; margin-left: auto; }
+.card .titolo { margin: 8px 16px 4px; font-size: 18px; }
+.card .titolo a { color: #111827; text-decoration: none; }
+.card .titolo a:hover { text-decoration: underline; }
+.card .descrizione { margin: 0 16px 14px; color: #374151; font-size: 15px; }
+
+/* Troncamento solo visivo: il DOM resta integro (AC-US01-04, RNF3). */
+.card .titolo a, .card .descrizione {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card .titolo a { -webkit-line-clamp: 2; line-clamp: 2; }
+.card .descrizione { -webkit-line-clamp: 3; line-clamp: 3; }
+
+/* Pulsante "Carica altri" e suo stato durante il caricamento (AC-US01-07, AC-US01-08). */
+.comando-feed { text-align: center; padding: 4px 20px 24px; margin: 0; }
+#carica-altri { font: inherit; padding: 10px 22px; border-radius: 8px; border: 1px solid #d1d5db; background: #fff; cursor: pointer; }
+#carica-altri:hover { background: #f9fafb; }
+#carica-altri:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+#carica-altri:disabled { opacity: 0.6; cursor: default; }
+
+/* Messaggi di errore e avvisi, centrati (AC-US01-09, AC-US01-10). */
+.avviso { text-align: center; color: #b91c1c; padding: 16px 20px; margin: 0 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; }
+.avviso[hidden] { display: none; }
