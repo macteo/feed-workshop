@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Loop agentico del workshop (25 novembre).
 #
-# Prende dal backlog le user story «Pronta» e, per ognuna:
+# Prende dal backlog le user story «Ready» e, per ognuna:
 #   worktree e branch → un agente per task (test prima) → npm test → revisore
 #   → commit → merge in main → npm test su main.
 # Alla fine pubblica web/ in una cartella di «produzione» sul vostro computer
@@ -37,9 +37,9 @@ if [ "$(git branch --show-current)" != "main" ] || [ -n "$(git status --porcelai
   echo "Il loop parte da main senza modifiche in sospeso (git status deve essere vuoto)."; exit 1
 fi
 
-storie=$(grep -E '^\| US-[0-9]+ \|.*\| Pronta \|$' docs/backlog.md | cut -d'|' -f2 | tr -d ' ')
-[ -z "$storie" ] && { echo "Nessuna user story «Pronta» in docs/backlog.md."; exit 0; }
-passo "User story pronte: $(echo $storie)"
+storie=$(grep -E '^\| US-[0-9]+ \|.*\| Ready \|$' docs/backlog.md | cut -d'|' -f2 | tr -d ' ')
+[ -z "$storie" ] && { echo "Nessuna user story «Ready» in docs/backlog.md."; exit 0; }
+passo "User story Ready: $(echo $storie)"
 
 i=0
 for us in $storie; do
@@ -99,7 +99,7 @@ for us in $storie; do
 
   # --- commit nel worktree, merge in main ----------------------------------------------------------
   passo "$us · commit e merge in main"
-  perl -pi -e "s/^(\| $us \|.*\| )Pronta( \|)\$/\${1}Fatto\${2}/" docs/backlog.md
+  perl -pi -e "s/^(\| $us \|.*\| )Ready( \|)\$/\${1}Fatto\${2}/" docs/backlog.md
   git add -A web tests specs docs/backlog.md
   titolo=$(grep -m1 '^# ' "$dir/spec.md" | sed -E "s/^# (US-[0-9]+ *[–-]? *)?//")
   git commit -qm "$us $titolo (loop)"

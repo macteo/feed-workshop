@@ -367,7 +367,7 @@ cd feed-loop && git switch -C main
 
 Il loop lavora su `main` e crea le sue cartelle accanto: `../feed-loop-us-03-lettura` (un worktree per storia) e `../feed-loop-produzione` (il deploy).
 
-## § 25 · Pronta: la Definition of Ready · Demo 7, passi 1–2
+## § 25 · La Definition of Ready · Demo 7, passi 1–2
 
 **Passo 1 · Sprint 2: tre storie e una Definition of Ready** · scheda *git*
 
@@ -411,14 +411,14 @@ cat specs/feed/us-05-tema/tasks.md
 Prepara per il loop US-03 «Tempo di lettura e tag» (RF1, UC-01) e US-04 «Filtrare per tag» (RF3, UC-03) di docs/backlog.md: per ciascuna scrivi spec.md, plan.md e tasks.md in specs/feed/us-03-lettura/ e specs/feed/us-04-tag/ dai modelli in specs/_template/. Non farmi domande: se devi scegliere, prendi l'opzione più semplice e scrivila tra le decisioni del piano. Le due storie devono toccare file diversi quando possibile. Non scrivere codice.
 ```
 
-**Passo 7 · «Pronta» lo scrive una persona** · scheda *git*, dopo aver riletto spec, piano e task
+**Passo 7 · «Ready» lo scrive una persona** · scheda *git*, dopo aver riletto spec, piano e task
 
 ```bash
-perl -pi -e 's/^(\| US-0[345] \|.*\| )Da fare( \|)$/${1}Pronta${2}/' docs/backlog.md
+perl -pi -e 's/^(\| US-0[345] \|.*\| )Da fare( \|)$/${1}Ready${2}/' docs/backlog.md
 ```
 
 ```bash
-git add specs docs && git commit -m "Sprint 2: US-03, US-04, US-05 pronte per il loop"
+git add specs docs && git commit -m "Sprint 2: US-03, US-04, US-05 Ready per il loop"
 ```
 
 ## § 27 · Il loop è uno script · Demo 8, passo 1
