@@ -3,14 +3,22 @@
 // API contract: docs/openapi3.yaml · Requisiti: docs/requirements.md · Backlog: docs/backlog.md
 import { leggiArticoli } from "./lib/sorgente.js";
 import { schedaCard, ciSonoAltriArticoli } from "./lib/card.js";
+import { unisciTag } from "./lib/tag.js";
 
 const PER_PAGE = 10;
+const ETICHETTA_PULSANTE = "Carica altri";
 
 const feed = document.getElementById("feed");
 const avviso = document.getElementById("avviso");
 const pulsante = document.getElementById("carica-altri");
+const pulsantiTag = document.getElementById("pulsanti-tag");
+const indicatoreFiltro = document.getElementById("filtro-attivo");
+const togliFiltro = document.getElementById("togli-filtro");
 
 let paginaCorrente = 0;
+let tagAttivo;
+let caricamento = false;
+const pulsantiPerTag = new Map();
 
 function mostraCard(articoli) {
   for (const articolo of articoli) {
@@ -28,46 +36,69 @@ function nascondiAvviso() {
   avviso.hidden = true;
 }
 
-// AC-US01-01, AC-US01-09: prima pagina all'apertura; in caso di Error il messaggio va in #avviso.
-async function avvia() {
-  try {
-    const articoli = await leggiArticoli({ page: 1, perPage: PER_PAGE });
-    paginaCorrente = 1;
-    nascondiAvviso();
-    mostraCard(articoli);
-    if (!ciSonoAltriArticoli(articoli, PER_PAGE)) pulsante.hidden = true;
-  } catch (errore) {
-    // Un solo messaggio comprensibile per errori di rete e HTTP (decisione di piano, AC-US01-09).
-    console.error(errore);
-    feed.hidden = true;
-    pulsante.hidden = true;
-    mostraAvviso("Impossibile caricare gli articoli");
+function aggiornaTagDisponibili(articoli) {
+  for (const tag of unisciTag(pulsantiPerTag.keys(), articoli)) {
+    if (pulsantiPerTag.has(tag)) continue;
+    const bottoneTag = document.createElement("button");
+    bottoneTag.type = "button";
+    bottoneTag.textContent = tag;
+    bottoneTag.disabled = caricamento;
+    bottoneTag.addEventListener("click", () => caricaPagina(1, tag));
+    pulsantiPerTag.set(tag, bottoneTag);
+    pulsantiTag.append(bottoneTag);
   }
 }
 
-// AC-US01-06, AC-US01-07, AC-US01-08, AC-US01-10: pagina successiva in fondo, pulsante
-// disabilitato con etichetta "Caricamento…", nascosto a feed esaurito; su errore le card
-// restano, l'avviso compare vicino al pulsante e la riprova è possibile.
-const ETICHETTA_PULSANTE = "Carica altri";
+function mostraFiltro() {
+  indicatoreFiltro.textContent = tagAttivo ? `Filtro attivo: ${tagAttivo}` : "";
+  indicatoreFiltro.hidden = !tagAttivo;
+  togliFiltro.hidden = !tagAttivo;
+  for (const [tag, bottoneTag] of pulsantiPerTag) {
+    bottoneTag.setAttribute("aria-pressed", String(tag === tagAttivo));
+  }
+}
 
-async function caricaAltri() {
-  pulsante.disabled = true;
-  pulsante.textContent = "Caricamento…";
+function impostaCaricamento(attivo) {
+  caricamento = attivo;
+  pulsante.disabled = attivo;
+  pulsante.textContent = attivo ? "Caricamento…" : ETICHETTA_PULSANTE;
+  togliFiltro.disabled = attivo;
+  for (const bottoneTag of pulsantiPerTag.values()) bottoneTag.disabled = attivo;
+}
+
+// La prima pagina sostituisce il feed; le successive si aggiungono in fondo.
+// Filtro e pagina restano invariati se la richiesta fallisce.
+async function caricaPagina(page, tag) {
+  if (caricamento) return;
+  impostaCaricamento(true);
   nascondiAvviso();
   try {
-    const articoli = await leggiArticoli({ page: paginaCorrente + 1, perPage: PER_PAGE });
-    paginaCorrente += 1;
+    const articoli = await leggiArticoli({ page, perPage: PER_PAGE, tag });
+    paginaCorrente = page;
+    tagAttivo = tag;
+    if (!tagAttivo) aggiornaTagDisponibili(articoli);
+    mostraFiltro();
+    if (page === 1) feed.replaceChildren();
     mostraCard(articoli);
-    if (!ciSonoAltriArticoli(articoli, PER_PAGE)) pulsante.hidden = true;
+    if (page === 1 && tagAttivo && articoli.length === 0) {
+      const vuoto = document.createElement("p");
+      vuoto.textContent = "Nessun articolo per questo tag";
+      feed.append(vuoto);
+    }
+    pulsante.hidden = !ciSonoAltriArticoli(articoli, PER_PAGE);
   } catch (errore) {
     console.error(errore);
+    if (paginaCorrente === 0) {
+      feed.hidden = true;
+      pulsante.hidden = true;
+    }
     mostraAvviso("Impossibile caricare gli articoli");
   } finally {
-    pulsante.disabled = false;
-    pulsante.textContent = ETICHETTA_PULSANTE;
+    impostaCaricamento(false);
   }
 }
 
-pulsante.addEventListener("click", caricaAltri);
+pulsante.addEventListener("click", () => caricaPagina(paginaCorrente + 1, tagAttivo));
+togliFiltro.addEventListener("click", () => caricaPagina(1));
 
-avvia();
+caricaPagina(1);

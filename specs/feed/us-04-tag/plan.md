@@ -20,4 +20,4 @@
 - Gestire una richiesta alla volta disabilitando i comandi durante il caricamento. Se un cambio filtro fallisce, conservare l'ultimo feed riuscito, il filtro e la pagina, e usare l'avviso di US-01. Se una prima pagina filtrata è vuota, mostrare «Nessun articolo per questo tag» e lasciare disponibile «Togli filtro».
 
 ## Differenze tra piano ed esecuzione
-- Da compilare alla chiusura di T-3.
+- Nessuna.
