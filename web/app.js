@@ -3,6 +3,34 @@
 // API contract: docs/openapi3.yaml · Requisiti: docs/requirements.md · Backlog: docs/backlog.md
 import { leggiArticoli } from "./lib/sorgente.js";
 import { schedaCard, ciSonoAltriArticoli } from "./lib/card.js";
+import { temaEffettivo, temaOpposto } from "./lib/tema.js";
+
+function inizializzaTema() {
+  const chiaveTema = "feed.tema";
+  const temaSistema = window.matchMedia("(prefers-color-scheme: dark)");
+  const pulsanteTema = document.getElementById("cambia-tema");
+  let preferenza = localStorage.getItem(chiaveTema);
+
+  function leggiTema() {
+    return temaEffettivo(preferenza, temaSistema.matches ? "dark" : "light");
+  }
+
+  function aggiornaTema() {
+    const tema = leggiTema();
+    document.documentElement.dataset.tema = tema;
+    pulsanteTema.textContent = temaOpposto(tema) === "dark"
+      ? "Passa al tema scuro"
+      : "Passa al tema chiaro";
+  }
+
+  temaSistema.addEventListener("change", aggiornaTema);
+  pulsanteTema.addEventListener("click", () => {
+    preferenza = temaOpposto(leggiTema());
+    localStorage.setItem(chiaveTema, preferenza);
+    aggiornaTema();
+  });
+  aggiornaTema();
+}
 
 const PER_PAGE = 10;
 
@@ -70,4 +98,5 @@ async function caricaAltri() {
 
 pulsante.addEventListener("click", caricaAltri);
 
+inizializzaTema();
 avvia();
