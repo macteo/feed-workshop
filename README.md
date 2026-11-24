@@ -2,7 +2,7 @@
 
 Un client web che mostra un feed pubblico di articoli di DEV.to, senza login. Serve per provare con un agente il flusso del D2 (il secondo deliverable del corso, «Sviluppo»): spec, piano, implementazione con i test, verifica.
 
-> **Tutti i comandi e i prompt delle demo sono in [COMANDI.md](COMANDI.md)**, pronti da copiare, nell'ordine in cui li vedete a schermo. Il numero di ogni sezione (§ 4, § 7…) è il numero grande in alto a destra sulla slide; «Demo N · passo M» è quello che vedete nella demo.
+> **Tutti i comandi e i prompt delle demo sono in [COMANDI.md](COMANDI.md)**, pronti da copiare, nell'ordine in cui li vedete a schermo. Il numero di ogni sezione (§ 4, § 7…) è il numero arancione in basso a sinistra sulla slide e nelle demo; «Demo N · passo M» è quello che vedete nella demo.
 
 ## Partire
 

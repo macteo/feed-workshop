@@ -2,7 +2,7 @@
 
 Tutti i comandi e i prompt delle demo, nell'ordine in cui li vedete a schermo, pronti da copiare.
 
-- Il **numero di sezione** (§ 4, § 7…) è il numero grande in alto a destra sulla slide.
+- Il **numero di sezione** (§ 4, § 7…) è il numero arancione in basso a sinistra sulla slide e nelle demo.
 - **Demo N · passo M** è quello che vedete in alto nella demo registrata.
 - Ogni blocco di codice ha il pulsante di copia in alto a destra (su GitHub).
 
