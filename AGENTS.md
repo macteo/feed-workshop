@@ -28,6 +28,7 @@ Quando il prompt ti indica un task `T-N` di `specs/<epica>/us-NN-slug/tasks.md`:
 - fai solo quel task, toccando solo i file che elenca (più i test);
 - prima il test `[UNIT]`, poi il codice, poi `npm test`;
 - quando `npm test` passa, spunta il task in `tasks.md` (`- [x] T-N`) e fermati. Commit, merge e backlog li fa il loop.
+- all'ultimo task della US compila in `plan.md` la sezione «Differenze tra piano ed esecuzione» (anche solo «nessuna»): è una voce della Definition of Done e il revisore la controlla.
 
 ## Limiti
 

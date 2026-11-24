@@ -92,7 +92,7 @@ for us in $storie; do
     "${OC[@]}" --title "$us correzioni" \
       "Leggi $dir/verifica.md. Correggi solo i problemi segnalati, uno alla volta, con un test [UNIT] prima quando è possibile; poi npm test."
   done
-  kill "$server" 2>/dev/null
+  kill "$server" 2>/dev/null; wait "$server" 2>/dev/null
   if [ "$verdetto" != PRONTA ] || ! npm test >.loop/npm-test.txt 2>&1; then
     esito "$us" "$slug" "ferma: il revisore non dà PRONTA (leggete $dir/verifica.md)"; cd "$ROOT"; continue
   fi
@@ -101,7 +101,8 @@ for us in $storie; do
   passo "$us · commit e merge in main"
   perl -pi -e "s/^(\| $us \|.*\| )Pronta( \|)\$/\${1}Fatto\${2}/" docs/backlog.md
   git add -A web tests specs docs/backlog.md
-  git commit -qm "$us $(grep -m1 '^# ' "$dir/spec.md" | sed 's/^# //') (loop)"
+  titolo=$(grep -m1 '^# ' "$dir/spec.md" | sed -E "s/^# (US-[0-9]+ *[–-]? *)?//")
+  git commit -qm "$us $titolo (loop)"
   cd "$ROOT"
   if ! git merge -q --no-ff "$ramo" -m "Merge $ramo"; then
     git merge --abort
