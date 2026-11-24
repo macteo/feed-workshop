@@ -2,6 +2,8 @@
 
 Un client web che mostra un feed pubblico di articoli di DEV.to, senza login. Serve per provare con un agente il flusso del D2 (il secondo deliverable del corso, «Sviluppo»): spec, piano, implementazione con i test, verifica.
 
+> **Tutti i comandi e i prompt delle demo sono in [COMANDI.md](COMANDI.md)**, pronti da copiare, nell'ordine in cui li vedete a schermo. Il numero di ogni sezione (§ 4, § 7…) è il numero grande in alto a destra sulla slide; «Demo N · passo M» è quello che vedete nella demo.
+
 ## Partire
 
 Serve **Node.js 20 o successivo** (`node -v`) e **OpenCode** (`opencode --version`).
@@ -56,6 +58,7 @@ specs/feed/us-NN-slug/   spec.md e plan.md di ogni US (modelli in specs/_templat
 web/                     il sito (web/lib/ per la logica testabile, web/data/ i dati salvati)
 tests/feed/              test automatici
 AGENTS.md                regole per l'agente
+COMANDI.md               comandi e prompt delle demo, numerati come le slide
 .opencode/               agente revisore e skill del progetto
 esempi/                  un plugin di OpenCode da installare durante il workshop
 ```
