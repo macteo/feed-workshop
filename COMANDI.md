@@ -353,138 +353,120 @@ e ricaricate la pagina: il vostro feed con gli articoli di oggi. Se DEV.to rispo
 
 ---
 
-## § 24 · 25 novembre · L'implementatore si controlla · Demo 7
+## § 24 · 25 novembre · Dall'aula al loop
 
-Da guardare (si può rifare dopo il commit di US-01). Il punto di partenza: US-01 unita in `main`, skill e plugin nel repository, una branch nuova per US-02. Scheda *git*:
+Per provarlo a casa, in una copia nuova del repository sul branch `sprint-2` (il vostro lavoro non si tocca):
 
 ```bash
-git switch main && git merge --no-ff feature/us-01-feed -m "Merge feature/us-01-feed: US-01 Consultare il feed"
+git clone -b sprint-2 https://github.com/macteo/feed-workshop.git feed-loop
 ```
 
 ```bash
-git add .agents skills-lock.json .opencode/plugins && git commit -m "Skill e plugin del progetto"
+cd feed-loop && git switch -C main
 ```
+
+Il loop lavora su `main` e crea le sue cartelle accanto: `../feed-loop-us-03-lettura` (un worktree per storia) e `../feed-loop-produzione` (il deploy).
+
+## § 25 · Pronta: la Definition of Ready · Demo 7, passi 1–2
+
+**Passo 1 · Sprint 2: tre storie e una Definition of Ready** · scheda *git*
 
 ```bash
-git switch -c feature/us-02-mi-piace
+sed -n '5,13p' docs/backlog.md
 ```
 
-**Passo 1 · Il punto di partenza del 25** · scheda *git*
+**Passo 2 · Un task che un agente può fare da solo** · scheda *git*
 
 ```bash
-git log --oneline --graph -6 && git branch --show-current
+cat specs/_template/tasks.md
 ```
 
-**Passo 2 · Più autonomia, detta nel prompt** · scheda *agente*: `/new`, agente Build, poi
+## § 26 · Un task che un agente può fare da solo · Demo 7, passi 3–7
+
+**Passo 3 · Prima le domande, su US-05** · scheda *agente* (meglio con l'agente Plan: **Shift+Tab**)
 
 ```text
-Lavora su US-02 «Mi piace» (docs/backlog.md, RF2 e UC-02 di docs/requirements.md). Oggi fai i passi di fila, senza aspettare la mia approvazione: 1) scrivi specs/feed/us-02-mi-piace/spec.md e plan.md dai modelli; 2) implementa un task alla volta, test [UNIT] prima, poi npm test; 3) prima di dire che hai finito apri tu la pagina con agent-browser: è già servita su http://localhost:5173, non avviare server (oggi puoi aprire il browser, al massimo 10 comandi, screenshot in specs/feed/us-02-mi-piace/verifica/) e controlla ogni AC [E2E]: se qualcosa non va, correggi e rilancia npm test; Non lanciare il revisore: lo chiamo io. Alla fine dimmi che cosa hai corretto dopo il tuo controllo.
+Usa la skill grill-me su US-05 «Tema scuro» (docs/backlog.md, RF4 e UC-04 di docs/requirements.md). Fammi esattamente tre domande sui punti ambigui, in un unico messaggio, numerate, ciascuna con la tua risposta consigliata. Non scrivere file.
 ```
-
-**Passo 3 · Il suo controllo nel browser**: gli screenshot sono in `specs/feed/us-02-mi-piace/verifica/`.
-
-**Passo 4 · Il revisore, chiamato da voi** · in OpenCode
 
 ```text
-@revisore verifica US-02 in specs/feed/us-02-mi-piace/: leggi spec.md, plan.md e la Definition of Done, guarda git diff, esegui npm test, prova gli AC [E2E] su http://localhost:5173 con la skill agent-browser (al massimo 12 comandi, screenshot in specs/feed/us-02-mi-piace/verifica/), poi scrivi specs/feed/us-02-mi-piace/verifica.md con la skill verifica-us.
+Accetto le risposte consigliate.
 ```
 
-**Passo 5 · Il commit e il merge restano vostri** · scheda *git*
+**Passo 4 · Spec, piano e task di US-05** · agente Build
+
+```text
+Scrivi specs/feed/us-05-tema/spec.md, plan.md e tasks.md dai modelli in specs/_template/, da RF4 e UC-04 e dalle risposte che ti ho dato. AC in Given/When/Then marcati [UNIT] o [E2E]; nel piano ogni AC con la sua prova; in tasks.md task piccoli, ciascuno con file, dipendenze e controllo, il test prima del codice. Non scrivere codice.
+```
+
+**Passo 5 · Il vostro gate: rileggere i task** · scheda *git*
 
 ```bash
-git add web tests specs docs/backlog.md && git commit -m "US-02 Mi piace"
+cat specs/feed/us-05-tema/tasks.md
+```
+
+**Passo 6 · US-03 e US-04, stessa procedura** · scheda *agente*: `/new`, agente Build, poi
+
+```text
+Prepara per il loop US-03 «Tempo di lettura e tag» (RF1, UC-01) e US-04 «Filtrare per tag» (RF3, UC-03) di docs/backlog.md: per ciascuna scrivi spec.md, plan.md e tasks.md in specs/feed/us-03-lettura/ e specs/feed/us-04-tag/ dai modelli in specs/_template/. Non farmi domande: se devi scegliere, prendi l'opzione più semplice e scrivila tra le decisioni del piano. Le due storie devono toccare file diversi quando possibile. Non scrivere codice.
+```
+
+**Passo 7 · «Pronta» lo scrive una persona** · scheda *git*, dopo aver riletto spec, piano e task
+
+```bash
+perl -pi -e 's/^(\| US-0[345] \|.*\| )Da fare( \|)$/${1}Pronta${2}/' docs/backlog.md
 ```
 
 ```bash
-git switch main && git merge --no-ff feature/us-02-mi-piace -m "Merge feature/us-02-mi-piace" && git log --oneline --graph -4
+git add specs docs && git commit -m "Sprint 2: US-03, US-04, US-05 pronte per il loop"
 ```
 
-## § 25 · 25 novembre · Più storie in parallelo · Demo 8
+## § 27 · Il loop è uno script · Demo 8, passo 1
 
-Da guardare. Nella demo il backlog aveva due storie in più, US-03 «Tempo di lettura e tag» e US-04 «Filtrare per tag», che nel repository non ci sono: per provarlo, usate due storie vostre al loro posto.
-
-**Passo 1 · Due storie, due worktree** · scheda *git*
+Scheda *git*, su `main` senza modifiche in sospeso:
 
 ```bash
-git worktree add ../feed-us-03 -b feature/us-03-lettura
+sed -n '1,14p' esempi/loop.sh
 ```
 
 ```bash
-git worktree add ../feed-us-04 -b feature/us-04-tag
+./esempi/loop.sh
 ```
+
+Per scegliere il modello (altrimenti vale quello di `opencode.json`):
+
+```bash
+MODELLO=opencode/deepseek-v4.1-flash-free ./esempi/loop.sh
+```
+
+`opencode run --auto` approva da solo i permessi «ask»: restano vietati solo quelli in `opencode.json`. Leggetelo prima di lanciare il loop.
+
+## § 28 · Il loop al lavoro · Demo 8, passi 2–7
+
+Da un altro terminale, mentre il loop gira:
 
 ```bash
 git worktree list
 ```
 
-**Passo 2 · Una scheda per US-03** · un terminale nuovo nella cartella `../feed-us-03`
+Se una storia si ferma, il suo worktree resta lì per voi (al posto di `us-04-tag` la storia ferma):
 
 ```bash
-WEB_PORT=5174 npm start &
+cd ../feed-loop-us-04-tag && cat specs/feed/us-04-tag/verifica.md
 ```
+
+## § 29 · Deploy e prova di fumo · Demo 8, passi 8–9
+
+La «produzione» sul vostro computer: http://localhost:8080
 
 ```bash
-opencode
+cat ../feed-loop-produzione/VERSIONE && git log --oneline --graph -14
 ```
 
-Agente Build, poi:
-
-```text
-Lavora su US-03 «Tempo di lettura e tag» (docs/backlog.md e docs/requirements.md). Un'altra sessione lavora in parallelo su US-04 (filtro per tag) in un altro worktree: tocca solo i file che servono alla tua US. Fai i passi di fila e non farmi domande: se devi scegliere, prendi l'opzione più semplice e scrivila tra le decisioni del piano. 1) specs/feed/us-03-lettura/spec.md e plan.md dai modelli; 2) implementa un task alla volta, test [UNIT] prima, poi npm test; 3) controlla tu ogni AC [E2E] con agent-browser su http://localhost:5174, già servita da questa scheda: non avviare server (oggi puoi aprire il browser, al massimo 8 comandi, screenshot in specs/feed/us-03-lettura/verifica/), correggi se serve. Non lanciare il revisore: lo chiamo io.
-```
-
-**Passo 3 · Una scheda per US-04** · un altro terminale nuovo, nella cartella `../feed-us-04`
+Per spegnerla:
 
 ```bash
-WEB_PORT=5175 npm start &
-```
-
-```bash
-opencode
-```
-
-Agente Build, poi:
-
-```text
-Lavora su US-04 «Filtrare per tag» (docs/backlog.md e docs/requirements.md). Un'altra sessione lavora in parallelo su US-03 (tempo di lettura e tag) in un altro worktree: tocca solo i file che servono alla tua US. Fai i passi di fila e non farmi domande: se devi scegliere, prendi l'opzione più semplice e scrivila tra le decisioni del piano. 1) specs/feed/us-04-tag/spec.md e plan.md dai modelli; 2) implementa un task alla volta, test [UNIT] prima, poi npm test; 3) controlla tu ogni AC [E2E] con agent-browser su http://localhost:5175, già servita da questa scheda: non avviare server (oggi puoi aprire il browser, al massimo 8 comandi, screenshot in specs/feed/us-04-tag/verifica/), correggi se serve. Non lanciare il revisore: lo chiamo io.
-```
-
-**Passi 4–5**: si segue il lavoro dei due agenti, rispondendo ai permessi in ciascuna scheda.
-
-**Passo 6 · La verifica di US-03** · nella scheda di US-03
-
-```text
-@revisore verifica US-03 in specs/feed/us-03-lettura/: leggi spec.md, plan.md e la Definition of Done, guarda git diff, esegui npm test, prova gli AC [E2E] su http://localhost:5174 con la skill agent-browser (al massimo 12 comandi, screenshot in specs/feed/us-03-lettura/verifica/), poi scrivi specs/feed/us-03-lettura/verifica.md con la skill verifica-us.
-```
-
-**Passo 7 · La verifica di US-04** · nella scheda di US-04
-
-```text
-@revisore verifica US-04 in specs/feed/us-04-tag/: leggi spec.md, plan.md e la Definition of Done, guarda git diff, esegui npm test, prova gli AC [E2E] su http://localhost:5175 con la skill agent-browser (al massimo 12 comandi, screenshot in specs/feed/us-04-tag/verifica/), poi scrivi specs/feed/us-04-tag/verifica.md con la skill verifica-us.
-```
-
-**Passo 8 · Si incontrano al merge** · scheda *git* (nella cartella principale `feed-workshop`)
-
-```bash
-git -C ../feed-us-03 add web tests specs && git -C ../feed-us-03 commit -m "US-03 Tempo di lettura e tag"
-```
-
-```bash
-git -C ../feed-us-04 add web tests specs && git -C ../feed-us-04 commit -m "US-04 Filtrare per tag"
-```
-
-```bash
-git merge --no-ff feature/us-03-lettura -m "Merge US-03"
-```
-
-```bash
-git merge --no-ff feature/us-04-tag -m "Merge US-04"
-```
-
-Se git si ferma per un conflitto, lo risolve una persona (oppure `git merge --abort` per tornare indietro).
-
-```bash
-git log --oneline --graph -7
+kill $(cat ../feed-loop-produzione.pid)
 ```
 
 ---
