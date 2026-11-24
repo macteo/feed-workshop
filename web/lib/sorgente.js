@@ -1,5 +1,5 @@
 // Lettura degli articoli: l'unico modulo che conosce la differenza tra la copia salvata e DEV.to dal vivo.
-// API contract: GET /api/articles?page=N&per_page=M in docs/openapi3.yaml.
+// API contract: GET /api/articles con page, per_page e tag opzionale in docs/openapi3.yaml.
 import { API_BASE } from "../config.js";
 
 const remota = (base) => /^https?:\/\//.test(base);
@@ -12,10 +12,14 @@ export function pagina(articoli, page = 1, perPage = 10) {
 }
 
 // Restituisce gli articoli della pagina richiesta. Se la risposta non è valida lancia un Error.
-export async function leggiArticoli({ page = 1, perPage = 10 } = {}, { base = API_BASE, fetchFn = fetch } = {}) {
-  const url = remota(base) ? `${base}/articles?page=${page}&per_page=${perPage}` : `${base}/articles.json`;
+export async function leggiArticoli({ page = 1, perPage = 10, tag } = {}, { base = API_BASE, fetchFn = fetch } = {}) {
+  const dalVivo = remota(base);
+  const url = dalVivo
+    ? `${base}/articles?page=${page}&per_page=${perPage}${tag ? `&tag=${encodeURIComponent(tag)}` : ""}`
+    : `${base}/articles.json`;
   const res = await fetchFn(url);
   if (!res.ok) throw new Error(`Risposta ${res.status} da ${url}`);
   const dati = await res.json();
-  return remota(base) ? dati : pagina(dati, page, perPage);
+  if (dalVivo) return dati;
+  return pagina(tag ? dati.filter((a) => a.tag_list.includes(tag)) : dati, page, perPage);
 }

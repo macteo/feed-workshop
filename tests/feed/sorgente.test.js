@@ -59,11 +59,40 @@ test("[UNIT] in locale legge articles.json e restituisce la pagina chiesta", asy
   assert.deepEqual(p2.map((a) => a.id), salvati.slice(5, 10).map((a) => a.id));
 });
 
+test("[UNIT] AC-US04-01: in locale filtra i tag esatti prima di paginare", async () => {
+  const articoli = [
+    { id: 1, tag_list: ["javascript"] },
+    { id: 2, tag_list: ["js"] },
+    { id: 3, tag_list: ["nodejs"] },
+    { id: 4, tag_list: ["web", "js"] },
+    { id: 5, tag_list: ["js"] },
+    { id: 6, tag_list: ["css"] },
+  ];
+  const fetchFn = async () => risposta(articoli);
+  const leggiPagina = (page) => leggiArticoli({ page, perPage: 2, tag: "js" }, { base: "data", fetchFn });
+
+  assert.deepEqual((await leggiPagina(1)).map((a) => a.id), [2, 4]);
+  assert.deepEqual((await leggiPagina(2)).map((a) => a.id), [5]);
+  assert.deepEqual(await leggiPagina(3), []);
+});
+
 test("[UNIT] dal vivo chiede page e per_page a DEV.to", async () => {
   let chiesto;
   const fetchFn = async (url) => { chiesto = url; return risposta([]); };
   await leggiArticoli({ page: 3, perPage: 10 }, { base: "https://dev.to/api", fetchFn });
   assert.equal(chiesto, "https://dev.to/api/articles?page=3&per_page=10");
+});
+
+test("[UNIT] AC-US04-02: dal vivo invia un solo parametro tag codificato", async () => {
+  let chiesto;
+  const fetchFn = async (url) => { chiesto = url; return risposta([]); };
+  const tag = "c++ & web";
+  await leggiArticoli({ page: 2, perPage: 5, tag }, { base: "https://dev.to/api", fetchFn });
+
+  const { searchParams } = new URL(chiesto);
+  assert.equal(searchParams.get("page"), "2");
+  assert.equal(searchParams.get("per_page"), "5");
+  assert.deepEqual(searchParams.getAll("tag"), [tag]);
 });
 
 test("[UNIT] una risposta di errore diventa un Error", async () => {
