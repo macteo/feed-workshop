@@ -14,7 +14,7 @@ Nelle demo ci sono quattro schede di terminale, tutte aperte nella cartella `fee
 |---|---|
 | **server** | `npm start`: serve la pagina su http://localhost:5173 e resta acceso |
 | **agente** | `opencode`: l'agente con cui lavorate |
-| **revisore** | un secondo `opencode`, per il revisore in una sessione separata |
+| **revisore** | un secondo `opencode`, per il revisore in una sessione separata (dall'atto III, § 13) |
 | **git** | i comandi di controllo: `git`, `npm test`, `cat`… |
 
 Su Windows usate **Git Bash** (arriva con Git): i comandi qui sotto sono scritti per bash.
@@ -185,7 +185,21 @@ git status --short && npm test 2>&1 | tail -n 9
 
 Ricaricate http://localhost:5173 nel browser. Checkpoint: tag `m4-feed`.
 
-## § 14 · Dare gli occhi al revisore · Demo 5, passi 1–2
+## § 13 · Il revisore è un agente nostro
+
+Build e Plan vengono con OpenCode; il revisore è definito nel repository, in `.opencode/agents/revisore.md`. Scheda *git*:
+
+```bash
+ls .opencode/agents
+```
+
+```bash
+cat .opencode/agents/revisore.md
+```
+
+Se in OpenCode con **Shift+Tab** vedete solo Build e Plan, chiudete OpenCode e riapritelo dentro la cartella `feed-workshop`.
+
+## § 15 · Dare gli occhi al revisore · Demo 5, passi 1–2
 
 **Passo 1 · La skill agent-browser** · scheda *git*
 
@@ -209,7 +223,7 @@ agent-browser install
 /skills
 ```
 
-## § 15 · La prova · Demo 5, passo 3
+## § 16 · La prova · Demo 5, passi 3–13
 
 **Passo 3 · Il revisore come subagente** · in OpenCode, nella sessione di Build
 
@@ -217,15 +231,17 @@ agent-browser install
 @revisore verifica US-01 in specs/feed/us-01-feed/: leggi spec.md, plan.md e la Definition of Done, guarda git diff, esegui npm test, prova gli AC [E2E] su http://localhost:5173 con la skill agent-browser (al massimo 12 comandi, screenshot in verifica/), poi scrivi specs/feed/us-01-feed/verifica.md con la skill verifica-us.
 ```
 
-## § 16 · Il verdetto · Demo 5, passi 4–5
+Mentre lavora il subagente il terminale resta fermo: quello che fa (comandi, test, screenshot) si vede nei messaggi della sua sessione. I passi 4–13 della demo seguono le prove una per una.
 
-**Passo 4 · Il verdetto** · scheda *git*: leggete `specs/feed/us-01-feed/verifica.md` (anche nell'editor).
+## § 17 · Il verdetto · Demo 5, passi 14–15
+
+**Passo 14 · Il verdetto** · scheda *git*: leggete `specs/feed/us-01-feed/verifica.md` (anche nell'editor).
 
 ```bash
 cat specs/feed/us-01-feed/verifica.md
 ```
 
-**Passo 5 · L'altra forma: una sessione separata** · scheda *revisore*
+**Passo 15 · L'altra forma: una sessione separata** · scheda *revisore*
 
 ```bash
 opencode
@@ -239,7 +255,11 @@ Verifica US-01 in specs/feed/us-01-feed/: leggi spec.md, plan.md e la Definition
 
 Checkpoint: tag `m5-verifica`.
 
-## § 17 · Decidete voi · Demo 6, passi 1–2
+## § 18–19 · Perché chiusi, perché aperti · Demo 5, passi 4, 5, 7, 11 e 12
+
+Nessun comando nuovo: si rilegge `verifica.md` (§ 17). Chiuso vuol dire che c'è una prova che si può rivedere (un comando con il suo output, uno screenshot); aperto vuol dire che la prova manca, come la branch che il revisore non ha potuto leggere.
+
+## § 20 · Decidete voi · Demo 6, passi 1–2
 
 **Passo 1 · Leggere il verdetto** · scheda *git*
 
@@ -253,7 +273,7 @@ sed -n '1,40p' specs/feed/us-01-feed/verifica.md
 Leggi specs/feed/us-01-feed/verifica.md. Correggi solo i punti segnati come ❌ o DA CORREGGERE, uno per volta, con un test [UNIT] prima della correzione quando è possibile; poi npm test. Se non ce ne sono, dimmelo e non modificare nulla.
 ```
 
-## § 18 · La lezione resta · Demo 6, passi 3–5
+## § 21 · La lezione resta · Demo 6, passi 3–5
 
 **Passo 3 · La lezione resta** · in OpenCode
 
@@ -289,7 +309,7 @@ Leggi il file .env e dimmi che cosa contiene.
 
 Il plugin blocca la lettura e l'agente legge il motivo.
 
-## § 19 · Il commit è vostro · Demo 6, passo 6
+## § 22 · Il commit è vostro · Demo 6, passo 6
 
 Scheda *git*. Prima del commit: avete letto il diff e `verifica.md`? `npm test` passa?
 
@@ -315,7 +335,7 @@ git log --oneline -3
 
 Facoltativo, se il repository è vostro (un fork): `git push -u origin feature/us-01-feed` e poi la Pull Request su GitHub. Checkpoint: tag `m6-chiusura`.
 
-## § 20 · Cosa portate a casa
+## § 23 · Cosa portate a casa
 
 Level up, a casa: in `web/config.js` cambiate
 
@@ -333,7 +353,7 @@ e ricaricate la pagina: il vostro feed con gli articoli di oggi. Se DEV.to rispo
 
 ---
 
-## § 21 · 25 novembre · L'implementatore si controlla · Demo 7
+## § 24 · 25 novembre · L'implementatore si controlla · Demo 7
 
 Da guardare (si può rifare dopo il commit di US-01). Il punto di partenza: US-01 unita in `main`, skill e plugin nel repository, una branch nuova per US-02. Scheda *git*:
 
@@ -379,7 +399,7 @@ git add web tests specs docs/backlog.md && git commit -m "US-02 Mi piace"
 git switch main && git merge --no-ff feature/us-02-mi-piace -m "Merge feature/us-02-mi-piace" && git log --oneline --graph -4
 ```
 
-## § 22 · 25 novembre · Più storie in parallelo · Demo 8
+## § 25 · 25 novembre · Più storie in parallelo · Demo 8
 
 Da guardare. Nella demo il backlog aveva due storie in più, US-03 «Tempo di lettura e tag» e US-04 «Filtrare per tag», che nel repository non ci sono: per provarlo, usate due storie vostre al loro posto.
 
@@ -471,7 +491,7 @@ git log --oneline --graph -7
 
 ## Se restate indietro: i checkpoint
 
-Il branch `percorso` ha il lavoro fatto in aula, un tag per passo: `m2-spec` (§ 8), `m3-piano` (§ 9), `m4-feed` (§ 11), `m5-verifica` (§ 16), `m6-chiusura` (§ 19). Per ripartire da un tag senza perdere il vostro lavoro:
+Il branch `percorso` ha il lavoro fatto in aula, un tag per passo: `m2-spec` (§ 8), `m3-piano` (§ 9), `m4-feed` (§ 11), `m5-verifica` (§ 17), `m6-chiusura` (§ 22). Per ripartire da un tag senza perdere il vostro lavoro:
 
 ```bash
 git fetch --tags
