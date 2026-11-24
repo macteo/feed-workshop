@@ -8,7 +8,7 @@ const web = new URL("../../web/", import.meta.url);
 const salvati = JSON.parse(await readFile(new URL("data/articles.json", web), "utf8"));
 const risposta = (dati, status = 200) => ({ ok: status < 400, status, json: async () => dati });
 
-test("[INT] la copia salvata ha i campi della card del contratto", async () => {
+test("[INT] la copia salvata ha i campi della card dell'API contract", async () => {
   assert.equal(salvati.length, 54);
   for (const a of salvati) {
     assert.ok(a.id && a.title && a.description !== undefined && a.readable_publish_date);

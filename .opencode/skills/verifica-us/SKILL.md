@@ -5,6 +5,8 @@ description: Formato della verifica di una user story rispetto ai criteri AC-USN
 
 # Verifica di una user story
 
+Sigle: AC (Acceptance Criterion, criterio di accettazione), US (User Story), [UNIT] (test unitario), [E2E] (verifica end-to-end nella pagina).
+
 Scrivi in italiano, in `specs/<epica>/us-NN-slug/verifica.md`, con questa struttura e nient'altro:
 
 ```

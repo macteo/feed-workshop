@@ -1,7 +1,9 @@
-# Requisiti del feed (estratto del D1)
+# Requisiti del feed (estratto del D1, il primo deliverable del corso)
 
 Progetto d'esempio del workshop: un client web che mostra un feed pubblico di articoli (DEV.to), senza login.
-Contratto delle API: `docs/openapi3.yaml`, da esplorare con la Swagger UI ospitata (link nel README). In aula i dati vengono da `web/data/articles.json`, una risposta reale salvata.
+API contract: `docs/openapi3.yaml` (formato OpenAPI 3), da esplorare con la Swagger UI ospitata (link nel README). In aula i dati vengono da `web/data/articles.json`, una risposta reale salvata.
+
+Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, caso d'uso).
 
 ## Requisiti funzionali
 

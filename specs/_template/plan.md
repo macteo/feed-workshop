@@ -6,6 +6,7 @@
 3. …
 
 ## Test
+<!-- [UNIT]: test unitario con npm test · [E2E]: verifica end-to-end nella pagina -->
 - [UNIT] <funzione>: <caso> (AC-USNN-01)
 - [E2E] <percorso nella pagina> (AC-USNN-02)
 

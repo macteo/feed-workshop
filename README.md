@@ -1,6 +1,6 @@
 # Feed · progetto del workshop di Ingegneria del Software (UniTN, 24–25 novembre 2026)
 
-Un client web che mostra un feed pubblico di articoli di DEV.to, senza login. Serve per provare il flusso del D2 con un agente: spec, piano, implementazione con i test, verifica.
+Un client web che mostra un feed pubblico di articoli di DEV.to, senza login. Serve per provare con un agente il flusso del D2 (il secondo deliverable del corso, «Sviluppo»): spec, piano, implementazione con i test, verifica.
 
 ## Partire
 
@@ -23,13 +23,13 @@ Se `npm start` non parte, qualunque server di file statici va bene, sempre sulla
 
 **I dati.** Non c'è un backend da avviare. `web/data/articles.json` è la risposta vera di `GET /api/articles` di DEV.to, salvata il 22/11/2026 (54 articoli, con le immagini): funziona anche senza rete. Il codice la legge con `leggiArticoli()` di `web/lib/sorgente.js`.
 
-**Il contratto.** È in `docs/openapi3.yaml`. Per esplorarlo e provare le chiamate senza installare nulla: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/macteo/feed-workshop/main/docs/openapi3.yaml (oppure https://editor.swagger.io, File → Import URL). «Try it out» chiama DEV.to dal vivo.
+**L'API contract.** È in `docs/openapi3.yaml`, scritto in formato OpenAPI 3: descrive gli endpoint e i campi delle risposte. Per esplorarlo e provare le chiamate senza installare nulla: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/macteo/feed-workshop/main/docs/openapi3.yaml (oppure https://editor.swagger.io, File → Import URL). «Try it out» chiama DEV.to dal vivo.
 
 **Level up: DEV.to dal vivo.** In `web/config.js` cambia `API_BASE` da `"data"` a `"https://dev.to/api"` e ricarica: stessi campi, articoli di oggi. DEV.to limita le richieste: se risponde con un errore, aspetta un minuto o torna a `"data"`.
 
 ## Se resti indietro: i checkpoint
 
-Il ramo `percorso` contiene il lavoro fatto in aula, un tag per passo:
+Il branch `percorso` contiene il lavoro fatto in aula, un tag per passo:
 
 | Tag | Che cosa c'è |
 |---|---|
@@ -37,18 +37,20 @@ Il ramo `percorso` contiene il lavoro fatto in aula, un tag per passo:
 | `m3-piano` | in più `plan.md` (prompt 2) |
 | `m4-feed` | in più il feed in `web/` e i test in `tests/` (prompt 3) |
 | `m5-verifica` | in più `verifica.md` del revisore e gli screenshot in `verifica/` |
-| `m6-chiusura` | in più la regola in `AGENTS.md` e la US chiusa nel backlog |
+| `m6-chiusura` | in più la regola in `AGENTS.md` e la user story chiusa nel backlog |
 
-In cima al ramo, dopo `m6-chiusura`, c'è una correzione arrivata dopo la revisione: nelle card diventano link solo gli indirizzi `http(s)` (un `javascript:` non passa). Il revisore non l'aveva vista perché nessun criterio parlava di sicurezza.
+In cima al branch, dopo `m6-chiusura`, c'è una correzione arrivata dopo la revisione: nelle card diventano link solo gli indirizzi `http(s)` (un `javascript:` non passa). Il revisore non l'aveva vista perché nessun criterio parlava di sicurezza.
 
-Per ripartire da un checkpoint senza perdere il tuo lavoro: `git fetch --tags`, poi `git switch -c ripartenza m3-piano` (al posto di `m3-piano` il tag che ti serve). Senza git: nella pagina del repository scegli il tag dal menu dei rami e scarica lo ZIP.
+Per ripartire da un checkpoint senza perdere il tuo lavoro: `git fetch --tags`, poi `git switch -c ripartenza m3-piano` (al posto di `m3-piano` il tag che ti serve). Senza git: nella pagina del repository scegli il tag dal menu dei branch (scheda «Tags») e scarica lo ZIP.
 
 ## Struttura (come nel D2)
 
+Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, caso d'uso), US (User Story), AC (Acceptance Criterion, criterio di accettazione), SP (story point), D1 (il primo deliverable del corso, requisiti e casi d'uso).
+
 ```
-docs/requirements.md     RF, RNF, UC e criteri (dal D1)
+docs/requirements.md     requisiti (RF, RNF), casi d'uso (UC) e criteri, dal D1
 docs/backlog.md          user story, story point, stato, Definition of Done
-docs/openapi3.yaml       contratto delle API (OpenAPI 3)
+docs/openapi3.yaml       API contract (OpenAPI 3)
 specs/feed/intent.md     intent dell'epica
 specs/feed/us-NN-slug/   spec.md e plan.md di ogni US (modelli in specs/_template/)
 web/                     il sito (web/lib/ per la logica testabile, web/data/ i dati salvati)

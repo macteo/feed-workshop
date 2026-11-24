@@ -1,10 +1,10 @@
-# Contratto delle API del feed (OpenAPI 3): sottoinsieme ufficiale della Forem API V1 di DEV.to.
+# API contract del feed (OpenAPI 3): sottoinsieme ufficiale della Forem API V1 di DEV.to.
 # Si esplora con una Swagger UI ospitata, senza installare nulla (link nel README).
 openapi: 3.0.3
 info:
   title: Forem API V1 (sottoinsieme per il feed)
   version: 1.0.0
-  description: 'Estratto dal contratto ufficiale di Forem/DEV.to (https://github.com/forem/forem/blob/main/swagger/v1/api_v1.json): solo la lettura degli articoli. Nel progetto, web/data/articles.json è la risposta di GET /api/articles salvata il 22/11/2026 (54 articoli).'
+  description: 'Estratto dall''API contract ufficiale di Forem/DEV.to (https://github.com/forem/forem/blob/main/swagger/v1/api_v1.json): solo la lettura degli articoli. Nel progetto, web/data/articles.json è la risposta di GET /api/articles salvata il 22/11/2026 (54 articoli).'
 servers:
 - url: https://dev.to
   description: DEV.to dal vivo (Try it out chiama il servizio reale)

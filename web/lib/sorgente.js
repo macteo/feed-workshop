@@ -1,5 +1,5 @@
 // Lettura degli articoli: l'unico modulo che conosce la differenza tra la copia salvata e DEV.to dal vivo.
-// Contratto: GET /api/articles?page=N&per_page=M in docs/openapi3.yaml.
+// API contract: GET /api/articles?page=N&per_page=M in docs/openapi3.yaml.
 import { API_BASE } from "../config.js";
 
 const remota = (base) => /^https?:\/\//.test(base);
