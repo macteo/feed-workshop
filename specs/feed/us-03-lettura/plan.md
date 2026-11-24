@@ -14,4 +14,4 @@
 - Riutilizzare l'escaping della card per i tag. Non introdurre pulsanti, stili dedicati o richieste aggiuntive. Il filtro di US-04 vive fuori dalle card ed è indipendente.
 
 ## Differenze tra piano ed esecuzione
-- Da compilare alla chiusura di T-1.
+- Nessuna.

@@ -8,6 +8,8 @@ const articolo = (over = {}) => ({
   id: 1234,
   title: "Come testare in modo efficace",
   description: "Una guida pratica con esempi",
+  reading_time_minutes: 7,
+  tag_list: ["javascript"],
   cover_image: "https://example.org/cover.jpg",
   readable_publish_date: "Nov 20",
   url: "https://dev.to/mario/come-testare-1abc",
@@ -67,6 +69,25 @@ test("[UNIT] schedaCard() sfugge i testi HTML (niente iniezione)", () => {
   const markup = schedaCard(articolo({ title: "<script>alert(1)</script>", description: "a & b < c" }));
   assert.ok(!markup.includes("<script>alert"));
   assert.ok(markup.includes("&lt;script&gt;"), "il testo resta leggibile in forma escapata");
+});
+
+// AC-US03-01: formato fisso per il tempo di lettura.
+test("[UNIT] schedaCard() mostra i minuti di lettura", () => {
+  const markup = schedaCard(articolo({ reading_time_minutes: 4 }));
+  assert.match(markup, />4 min di lettura</);
+});
+
+// AC-US03-02: tutti i tag in ordine, come testo escapato e non interattivo.
+test("[UNIT] schedaCard() mostra i tag sotto la descrizione nell'ordine ricevuto", () => {
+  const markup = schedaCard(articolo({ tag_list: ["zeta", "<em>html & css</em>", "alfa"] }));
+  assert.match(markup, /<p class="descrizione">[^<]*<\/p>\s*<p class="tag">zeta, &lt;em&gt;html &amp; css&lt;\/em&gt;, alfa<\/p>/);
+});
+
+// AC-US03-03: nessuna riga dei tag se la lista è vuota, anche se il campo tags ha un valore.
+test("[UNIT] schedaCard() mantiene il tempo di lettura senza la riga dei tag", () => {
+  const markup = schedaCard(articolo({ tag_list: [], tags: "alternativo" }));
+  assert.match(markup, />7 min di lettura</);
+  assert.doesNotMatch(markup, /class="tag"|alternativo/);
 });
 
 // Supporto ad AC-US01-08: fine feed = pagina con meno di perPage elementi.
