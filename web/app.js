@@ -4,6 +4,34 @@
 import { leggiArticoli } from "./lib/sorgente.js";
 import { schedaCard, ciSonoAltriArticoli } from "./lib/card.js";
 import { unisciTag } from "./lib/tag.js";
+import { temaEffettivo, temaOpposto } from "./lib/tema.js";
+
+function inizializzaTema() {
+  const chiaveTema = "feed.tema";
+  const temaSistema = window.matchMedia("(prefers-color-scheme: dark)");
+  const pulsanteTema = document.getElementById("cambia-tema");
+  let preferenza = localStorage.getItem(chiaveTema);
+
+  function leggiTema() {
+    return temaEffettivo(preferenza, temaSistema.matches ? "dark" : "light");
+  }
+
+  function aggiornaTema() {
+    const tema = leggiTema();
+    document.documentElement.dataset.tema = tema;
+    pulsanteTema.textContent = temaOpposto(tema) === "dark"
+      ? "Passa al tema scuro"
+      : "Passa al tema chiaro";
+  }
+
+  temaSistema.addEventListener("change", aggiornaTema);
+  pulsanteTema.addEventListener("click", () => {
+    preferenza = temaOpposto(leggiTema());
+    localStorage.setItem(chiaveTema, preferenza);
+    aggiornaTema();
+  });
+  aggiornaTema();
+}
 
 const PER_PAGE = 10;
 const ETICHETTA_PULSANTE = "Carica altri";
@@ -101,4 +129,5 @@ async function caricaPagina(page, tag) {
 pulsante.addEventListener("click", () => caricaPagina(paginaCorrente + 1, tagAttivo));
 togliFiltro.addEventListener("click", () => caricaPagina(1));
 
+inizializzaTema();
 caricaPagina(1);

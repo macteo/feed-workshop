@@ -29,4 +29,4 @@ L’implementatore esegue `npm test` a ogni task. Le verifiche `[E2E]` spettano 
 
 ## Differenze tra piano ed esecuzione
 
-Da compilare alla fine di T-3, anche se non ci sono differenze.
+Nessuna.

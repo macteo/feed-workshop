@@ -1,22 +1,56 @@
+:root {
+  color-scheme: light;
+  --sfondo-pagina: #f3f4f6;
+  --superficie: #ffffff;
+  --testo: #111827;
+  --testo-secondario: #4b5563;
+  --link: #1e40af;
+  --bordo: #e5e7eb;
+  --bordo-controllo: #6b7280;
+  --sfondo-controllo-attivo: #f9fafb;
+  --sfondo-controllo-disabilitato: #e5e7eb;
+  --fuoco: #2563eb;
+  --testo-avviso: #b91c1c;
+  --sfondo-avviso: #fef2f2;
+  --bordo-avviso: #fecaca;
+}
+
+:root[data-tema="dark"] {
+  color-scheme: dark;
+  --sfondo-pagina: #111827;
+  --superficie: #1f2937;
+  --testo: #f9fafb;
+  --testo-secondario: #cbd5e1;
+  --link: #93c5fd;
+  --bordo: #374151;
+  --bordo-controllo: #94a3b8;
+  --sfondo-controllo-attivo: #374151;
+  --sfondo-controllo-disabilitato: #374151;
+  --fuoco: #93c5fd;
+  --testo-avviso: #fecaca;
+  --sfondo-avviso: #450a0a;
+  --bordo-avviso: #991b1b;
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #f3f4f6; color: #111827; }
-.topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 20px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--sfondo-pagina); color: var(--testo); }
+.topbar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 20px; background: var(--superficie); border-bottom: 1px solid var(--bordo); }
 .topbar h1 { margin: 0; font-size: 24px; }
-.source { color: #4b5563; font-size: 14px; }
+.source { color: var(--testo-secondario); font-size: 14px; }
 #feed { padding: 16px 20px; }
 
 /* Card: layout in verticale, segnaposto copertina con aspect-ratio fisso (AC-US01-02, AC-US01-03). */
-.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
-.copertina-contenitore { aspect-ratio: 16 / 9; background: #e5e7eb; display: block; }
+.card { background: var(--superficie); border: 1px solid var(--bordo); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.copertina-contenitore { aspect-ratio: 16 / 9; background: var(--bordo); display: block; }
 .copertina-contenitore .copertina { width: 100%; height: 100%; object-fit: cover; display: block; }
 .autore { display: flex; align-items: center; gap: 8px; padding: 12px 16px 0; }
 .autore .avatar { width: 32px; height: 32px; border-radius: 50%; }
 .autore .nome { font-weight: 600; font-size: 14px; }
-.autore .data { color: #6b7280; font-size: 13px; margin-left: auto; }
+.autore .data { color: var(--testo-secondario); font-size: 13px; margin-left: auto; }
 .card .titolo { margin: 8px 16px 4px; font-size: 18px; }
-.card .titolo a { color: #111827; text-decoration: none; }
+.card .titolo a { color: var(--link); text-decoration: none; }
 .card .titolo a:hover { text-decoration: underline; }
-.card .descrizione { margin: 0 16px 14px; color: #374151; font-size: 15px; }
+.card .descrizione { margin: 0 16px 14px; color: var(--testo-secondario); font-size: 15px; }
 
 /* Troncamento solo visivo: il DOM resta integro (AC-US01-04, RNF3). */
 .card .titolo a, .card .descrizione {
@@ -27,13 +61,14 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 .card .titolo a { -webkit-line-clamp: 2; line-clamp: 2; }
 .card .descrizione { -webkit-line-clamp: 3; line-clamp: 3; }
 
-/* Pulsante "Carica altri" e suo stato durante il caricamento (AC-US01-07, AC-US01-08). */
+/* Controlli e stato di caricamento (AC-US01-07, AC-US01-08, AC-US05-06). */
 .comando-feed { text-align: center; padding: 4px 20px 24px; margin: 0; }
-#carica-altri { font: inherit; padding: 10px 22px; border-radius: 8px; border: 1px solid #d1d5db; background: #fff; cursor: pointer; }
-#carica-altri:hover { background: #f9fafb; }
-#carica-altri:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-#carica-altri:disabled { opacity: 0.6; cursor: default; }
+#cambia-tema, #carica-altri { font: inherit; padding: 10px 22px; border-radius: 8px; border: 1px solid var(--bordo-controllo); background: var(--superficie); color: var(--testo); cursor: pointer; }
+#cambia-tema { padding: 6px 12px; }
+#cambia-tema:is(:hover, :active), #carica-altri:enabled:is(:hover, :active) { background: var(--sfondo-controllo-attivo); }
+#cambia-tema:focus-visible, #carica-altri:focus-visible, .card .titolo a:focus-visible { outline: 2px solid var(--fuoco); outline-offset: 2px; }
+#carica-altri:disabled { background: var(--sfondo-controllo-disabilitato); color: var(--testo-secondario); opacity: 1; cursor: default; }
 
 /* Messaggi di errore e avvisi, centrati (AC-US01-09, AC-US01-10). */
-.avviso { text-align: center; color: #b91c1c; padding: 16px 20px; margin: 0 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; }
+.avviso { text-align: center; color: var(--testo-avviso); padding: 16px 20px; margin: 0 20px; background: var(--sfondo-avviso); border: 1px solid var(--bordo-avviso); border-radius: 8px; }
 .avviso[hidden] { display: none; }
