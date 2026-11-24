@@ -28,7 +28,14 @@
       "git diff": "allow",
       "git diff --stat": "allow",
       "git log --oneline*": "ask",
-      "npm test": "ask"
+      "npm test": "ask",
+      "git merge*": "deny",
+      "git switch*": "deny",
+      "git worktree*": "deny",
+      "git rebase*": "deny",
+      "npm install*": "deny",
+      "npm i *": "deny",
+      "curl*": "deny"
     }
   }
 }

@@ -21,6 +21,14 @@ Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, 
 
 Lavora solo sulla US indicata nel prompt. Aspetta l'approvazione dello studente tra un passo e l'altro.
 
+## Lavoro in loop (`esempi/loop.sh`)
+
+Quando il prompt ti indica un task `T-N` di `specs/<epica>/us-NN-slug/tasks.md`:
+
+- fai solo quel task, toccando solo i file che elenca (più i test);
+- prima il test `[UNIT]`, poi il codice, poi `npm test`;
+- quando `npm test` passa, spunta il task in `tasks.md` (`- [x] T-N`) e fermati. Commit, merge e backlog li fa il loop.
+
 ## Limiti
 
 - **Non eseguire mai** `git add`, `git commit`, `git push`, `git reset`, `git checkout`: branch `feature/us-NN-slug`, commit e Pull Request li fa lo studente.
