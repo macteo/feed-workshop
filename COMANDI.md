@@ -355,7 +355,7 @@ e ricaricate la pagina: il vostro feed con gli articoli di oggi. Se DEV.to rispo
 
 ## § 24 · 25 novembre · Dall'aula al loop
 
-Per provarlo a casa, in una copia nuova del repository sul branch `sprint-2` (il vostro lavoro non si tocca):
+Per provarlo a casa, in una copia nuova del repository sul branch `sprint-2` (il vostro lavoro resta com'è). Lì ci sono già tre storie Ready, con spec, plan e task:
 
 ```bash
 git clone -b sprint-2 https://github.com/macteo/feed-workshop.git feed-loop
@@ -367,58 +367,38 @@ cd feed-loop && git switch -C main
 
 Il loop lavora su `main` e crea le sue cartelle accanto: `../feed-loop-us-03-lettura` (un worktree per storia) e `../feed-loop-produzione` (il deploy).
 
-## § 25 · Pronta: la Definition of Ready · Demo 7, passi 1–2
+## § 25 · Configurare OpenCode per il loop · Demo 7, passi 1–3
 
-**Passo 1 · Sprint 2: tre storie e una Definition of Ready** · scheda *git*
-
-```bash
-sed -n '5,13p' docs/backlog.md
-```
-
-**Passo 2 · Un task che un agente può fare da solo** · scheda *git*
+**Passo 1 · Modello e permessi** · scheda *git*
 
 ```bash
-cat specs/_template/tasks.md
+cat opencode.json
 ```
 
-## § 26 · Un task che un agente può fare da solo · Demo 7, passi 3–7
-
-**Passo 3 · Prima le domande, su US-05** · scheda *agente* (meglio con l'agente Plan: **Shift+Tab**)
-
-```text
-Usa la skill grill-me su US-05 «Tema scuro» (docs/backlog.md, RF4 e UC-04 di docs/requirements.md). Fammi esattamente tre domande sui punti ambigui, in un unico messaggio, numerate, ciascuna con la tua risposta consigliata. Non scrivere file.
-```
-
-```text
-Accetto le risposte consigliate.
-```
-
-**Passo 4 · Spec, piano e task di US-05** · agente Build
-
-```text
-Scrivi specs/feed/us-05-tema/spec.md, plan.md e tasks.md dai modelli in specs/_template/, da RF4 e UC-04 e dalle risposte che ti ho dato. AC in Given/When/Then marcati [UNIT] o [E2E]; nel piano ogni AC con la sua prova; in tasks.md task piccoli, ciascuno con file, dipendenze e controllo, il test prima del codice. Non scrivere codice.
-```
-
-**Passo 5 · Il vostro gate: rileggere i task** · scheda *git*
+**Passo 2 · Un agente su misura: il revisore**
 
 ```bash
-cat specs/feed/us-05-tema/tasks.md
+sed -n '1,22p' .opencode/agents/revisore.md
 ```
 
-**Passo 6 · US-03 e US-04, stessa procedura** · scheda *agente*: `/new`, agente Build, poi
-
-```text
-Prepara per il loop US-03 «Tempo di lettura e tag» (RF1, UC-01) e US-04 «Filtrare per tag» (RF3, UC-03) di docs/backlog.md: per ciascuna scrivi spec.md, plan.md e tasks.md in specs/feed/us-03-lettura/ e specs/feed/us-04-tag/ dai modelli in specs/_template/. Non farmi domande: se devi scegliere, prendi l'opzione più semplice e scrivila tra le decisioni del piano. Le due storie devono toccare file diversi quando possibile. Non scrivere codice.
-```
-
-**Passo 7 · «Pronta» lo scrive una persona** · scheda *git*, dopo aver riletto spec, piano e task
+**Passo 3 · Le regole per il loop**
 
 ```bash
-perl -pi -e 's/^(\| US-0[345] \|.*\| )Da fare( \|)$/${1}Pronta${2}/' docs/backlog.md
+sed -n '/## Lavoro in loop/,/## Limiti/p' AGENTS.md
 ```
 
+## § 26 · I task, uno dopo l'altro · Demo 7, passi 4–5
+
+**Passo 4 · I task delle tre storie**
+
 ```bash
-git add specs docs && git commit -m "Sprint 2: US-03, US-04, US-05 pronte per il loop"
+grep -E '^- \[ \]' specs/feed/us-0*/tasks.md | cut -c1-96
+```
+
+**Passo 5 · Un agente senza interfaccia**
+
+```bash
+opencode run --auto 'In tre righe: quanti task ci sono in specs/feed/*/tasks.md, per quale storia, e quali file toccano di più?'
 ```
 
 ## § 27 · Il loop è uno script · Demo 8, passo 1
@@ -426,27 +406,35 @@ git add specs docs && git commit -m "Sprint 2: US-03, US-04, US-05 pronte per il
 Scheda *git*, su `main` senza modifiche in sospeso:
 
 ```bash
-sed -n '1,14p' esempi/loop.sh
+sed -n '1,19p' esempi/loop.sh
 ```
 
 ```bash
 ./esempi/loop.sh
 ```
 
-Per scegliere il modello (altrimenti vale quello di `opencode.json`):
+Per scegliere il modello (altrimenti vale quello di `opencode.json`), o per una storia alla volta:
 
 ```bash
-MODELLO=opencode/deepseek-v4.1-flash-free ./esempi/loop.sh
+MODELLO=openrouter/~deepseek/deepseek-flash-latest ./esempi/loop.sh
+```
+
+```bash
+PARALLELO=0 ./esempi/loop.sh
 ```
 
 `opencode run --auto` approva da solo i permessi «ask»: restano vietati solo quelli in `opencode.json`. Leggetelo prima di lanciare il loop.
 
-## § 28 · Il loop al lavoro · Demo 8, passi 2–7
+## § 28 · Più agenti in parallelo · Demo 8, passi 2–4
 
 Da un altro terminale, mentre il loop gira:
 
 ```bash
 git worktree list
+```
+
+```bash
+tail -f .loop/US-03.log
 ```
 
 Se una storia si ferma, il suo worktree resta lì per voi (al posto di `us-04-tag` la storia ferma):
@@ -455,12 +443,12 @@ Se una storia si ferma, il suo worktree resta lì per voi (al posto di `us-04-ta
 cd ../feed-loop-us-04-tag && cat specs/feed/us-04-tag/verifica.md
 ```
 
-## § 29 · Deploy e prova di fumo · Demo 8, passi 8–9
+## § 29 · Deploy e smoke test · Demo 8, passi 5–6
 
 La «produzione» sul vostro computer: http://localhost:8080
 
 ```bash
-cat ../feed-loop-produzione/VERSIONE && git log --oneline --graph -14
+cat ../feed-loop-produzione/VERSIONE && git log --oneline --graph -12
 ```
 
 Per spegnerla:
