@@ -355,7 +355,7 @@ e ricaricate la pagina: il vostro feed con gli articoli di oggi. Se DEV.to rispo
 
 ## § 24 · 25 novembre · Dall'aula al loop
 
-Per provarlo a casa, in una copia nuova del repository sul branch `sprint-2` (il vostro lavoro resta com'è). Lì ci sono già tre storie Ready, con spec, plan e task:
+Per provarlo a casa, in una copia nuova del repository (il vostro lavoro resta com'è). Sul branch `sprint-2`, e ora anche su `main`, ci sono già tre storie Ready, con spec, plan e task:
 
 ```bash
 git clone -b sprint-2 https://github.com/macteo/feed-workshop.git feed-loop
