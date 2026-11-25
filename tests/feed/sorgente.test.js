@@ -28,6 +28,29 @@ test("[UNIT] pagina() divide come l'API", () => {
   assert.ok(pagina(salvati, 2, 10).every((a) => !ids.has(a.id)));
 });
 
+// AC-US01-05: pagina 2 = articoli dal 11° al 20° nell'ordine ricevuto; pagina oltre la fine = elenco vuoto.
+test("[UNIT] pagina(articoli, 2, 10) restituisce gli articoli 11-20 nell'ordine ricevuto", () => {
+  const seconda = pagina(salvati, 2, 10);
+  assert.deepEqual(seconda.map((a) => a.id), salvati.slice(10, 20).map((a) => a.id));
+  assert.equal(seconda.length, 10);
+});
+
+test("[UNIT] pagina oltre la fine dell'elenco restituisce un elenco vuoto", () => {
+  assert.deepEqual(pagina(salvati, 7, 10), []);
+  assert.deepEqual(pagina(salvati, 100, 10), []);
+  assert.deepEqual(pagina([], 1, 10), []);
+});
+
+test("[UNIT] pagina() normalizza page e perPage non interi o minori di 1", () => {
+  const prima = pagina(salvati, 1, 10).map((a) => a.id);
+  assert.deepEqual(pagina(salvati, 0, 10).map((a) => a.id), prima);
+  assert.deepEqual(pagina(salvati, -3, 10).map((a) => a.id), prima);
+  assert.deepEqual(pagina(salvati, 1.8, 10).map((a) => a.id), prima);
+  assert.deepEqual(pagina(salvati, 2, 0).map((a) => a.id), pagina(salvati, 2, 1).map((a) => a.id));
+  assert.deepEqual(pagina(salvati, 2, -5).map((a) => a.id), pagina(salvati, 2, 1).map((a) => a.id));
+  assert.deepEqual(pagina(salvati, 2, 4.9).map((a) => a.id), salvati.slice(4, 8).map((a) => a.id));
+});
+
 test("[UNIT] in locale legge articles.json e restituisce la pagina chiesta", async () => {
   let chiesto;
   const fetchFn = async (url) => { chiesto = url; return risposta(salvati); };

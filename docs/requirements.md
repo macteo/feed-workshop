@@ -10,6 +10,10 @@ Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, 
 - **RF1 · Consultare il feed.** Il visitatore vede gli articoli pubblicati, ciascuno con avatar e nome dell'autore, data, copertina, titolo e descrizione. Gli articoli arrivano a pagine; il visitatore può caricarne altri.
 - **RF2 · Segnare «Mi piace».** Il visitatore può segnare un articolo con «Mi piace» e ritrovarlo segnato quando torna sulla pagina. La preferenza resta nel browser: l'API è in sola lettura.
 
+- **RF3 · Filtrare per tag.** Il visitatore sceglie un tag tra quelli degli articoli e vede solo gli articoli con quel tag; può tornare a tutti gli articoli.
+
+- **RF4 · Tema scuro.** Il visitatore passa dal tema chiaro al tema scuro e ritorno con un pulsante; la scelta resta nel browser. Senza una scelta salvata si segue l'impostazione del sistema.
+
 ## Requisiti non funzionali
 
 - **RNF1 · Compatibilità.** Ultime due versioni di Chrome, Firefox, Safari ed Edge.
@@ -39,7 +43,28 @@ Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, 
   3. Premendo di nuovo, il sistema torna allo stato iniziale.
 - **Postcondizione:** ricaricando la pagina, gli articoli segnati restano segnati.
 
+### UC-03 · Filtrare il feed per tag
+
+- **Attore:** visitatore. **Precondizione:** il feed è visibile (UC-01).
+- **Flusso principale:**
+  1. Il visitatore sceglie un tag (per esempio premendo un tag su una card).
+  2. Il sistema chiede la prima pagina degli articoli con quel tag (`GET /api/articles?tag=<tag>&page=1&per_page=10`; con i dati salvati filtra `tag_list`).
+  3. Il sistema mostra solo gli articoli con quel tag e indica il filtro attivo.
+  4. Il visitatore toglie il filtro; il sistema torna al feed completo.
+- **Postcondizione:** il visitatore vede gli articoli del tag scelto, o tutti.
+
+### UC-04 · Cambiare tema
+
+- **Attore:** visitatore. **Precondizione:** la pagina è aperta.
+- **Flusso principale:**
+  1. Il visitatore preme il pulsante del tema.
+  2. Il sistema passa al tema scuro (o chiaro) e ricorda la scelta nel browser.
+  3. Ricaricando la pagina, il sistema mostra il tema scelto.
+- **Postcondizione:** la pagina usa il tema scelto, con testo leggibile (contrasto almeno 4,5:1).
+
 ## Criteri di accettazione (dal D1)
 
 - RF1: ogni card mostra i sei elementi di RF1; il testo della card resta leggibile in poche righe; senza copertina la card resta ordinata; se l'API fallisce compare un messaggio, non una pagina bianca.
 - RF2: il «Mi piace» si attiva e si disattiva, resta dopo il ricaricamento e non fa richieste all'API.
+- RF3: si filtra per un tag alla volta, il filtro attivo si vede e si toglie con un pulsante.
+- RF4: il pulsante dice in quale tema si passa, la scelta resta dopo il ricaricamento, nessuna richiesta all'API.

@@ -12,7 +12,7 @@ Scrivi in italiano, in `specs/<epica>/us-NN-slug/verifica.md`, con questa strutt
 ```
 # Verifica – US-NN Titolo
 
-Esito: PRONTA | DA CORREGGERE
+Esito: READY | CHANGES REQUESTED
 
 ## Criteri di accettazione
 | AC | Tipo | Esito | Prova |
@@ -31,4 +31,4 @@ Esito: PRONTA | DA CORREGGERE
 
 - Un AC è ✅ solo se c'è una prova: un test che passa o un passo nel browser con screenshot.
 - Distingui ciò che hai **visto** (output, screenshot) da ciò che **deduci** leggendo il codice.
-- «PRONTA» solo se tutti gli AC sono ✅ e la DoD è completa, tranne commit e Pull Request che fa lo studente.
+- «READY» solo se tutti gli AC sono ✅ e la DoD è completa, tranne commit e Pull Request che fa lo studente.

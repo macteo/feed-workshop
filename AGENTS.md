@@ -21,7 +21,17 @@ Sigle: RF (requisito funzionale), RNF (requisito non funzionale), UC (Use Case, 
 
 Lavora solo sulla US indicata nel prompt. Aspetta l'approvazione dello studente tra un passo e l'altro.
 
+## Lavoro in loop (`esempi/loop.sh`)
+
+Quando il prompt ti indica un task `T-N` di `specs/<epica>/us-NN-slug/tasks.md`:
+
+- fai solo quel task, toccando solo i file che elenca (più i test);
+- prima il test `[UNIT]`, poi il codice, poi `npm test`;
+- quando `npm test` passa, spunta il task in `tasks.md` (`- [x] T-N`) e fermati. Commit, merge e backlog li fa il loop.
+- all'ultimo task della US compila in `plan.md` la sezione «Differenze tra piano ed esecuzione» (anche solo «nessuna»): è una voce della Definition of Done e il revisore la controlla.
+
 ## Limiti
 
 - **Non eseguire mai** `git add`, `git commit`, `git push`, `git reset`, `git checkout`: branch `feature/us-NN-slug`, commit e Pull Request li fa lo studente.
 - A fine lavoro riporta: file modificati, AC coperti e con quale test, esito di `npm test`, differenze dal piano.
+- Negli screenshot `[E2E]`, prima di scattare, porta in visuale l'elemento che deve provare lo stato (es. `scrollintoview` sul elemento ispezionato): lo stato verificato deve essere visibile nei pixel, non solo nel DOM.
